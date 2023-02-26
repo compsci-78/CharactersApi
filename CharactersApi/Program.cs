@@ -1,4 +1,5 @@
 using CharactersApi.Models;
+using CharactersApi.Services.Characters;
 using Microsoft.EntityFrameworkCore;
 
 namespace CharactersApi
@@ -18,6 +19,11 @@ namespace CharactersApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddTransient<ICharacterService, CharacterService>();
+            //builder.Services.AddTransient<IMovieService, MovieService>();
+            //builder.Services.AddTransient<IFranchiseService, FranchiseService>();
+            builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             var app = builder.Build();
 
