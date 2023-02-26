@@ -49,34 +49,30 @@ namespace CharactersApi.Controllers
 
         //// PUT: api/Characters/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutCharacter(int id, Character character)
-        //{
-        //    if (id != character.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCharacter(int id, Character character)
+        {
+            if (id != character.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _service.Entry(character).State = EntityState.Modified;
+            //_service.Entry(character).State = EntityState.Modified;
 
-        //    try
-        //    {
-        //        await _service.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CharacterExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            try
+            {
+                await _service.UpdateCharacter(character);
+            }
+            catch (CharacterNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
         //// POST: api/Characters
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

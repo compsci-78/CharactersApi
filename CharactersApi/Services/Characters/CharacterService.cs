@@ -16,7 +16,7 @@ namespace CharactersApi.Services.Characters
             throw new NotImplementedException();
         }
 
-        public Task DeleteCharacter(int id)
+        public async Task DeleteCharacter(int id)
         {
             throw new NotImplementedException();
         }
@@ -38,9 +38,16 @@ namespace CharactersApi.Services.Characters
             return character;
         }
 
-        public Task<Character> UpdateCharacter(Character character)
+        public async Task<Character> UpdateCharacter(Character character)
         {
-            throw new NotImplementedException();
+            var foundCharacter = await _context.Characters.AnyAsync(x => x.Id == character.Id);
+            if (!foundCharacter)
+            {
+                throw new CharacterNotFoundException(character.Id);
+            }
+            _context.Entry(character).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return character;
         }
     }
 }
