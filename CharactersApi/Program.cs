@@ -1,5 +1,6 @@
 using CharactersApi.Models;
 using CharactersApi.Services.Characters;
+using CharactersApi.Services.Franchises;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -50,7 +51,8 @@ namespace CharactersApi
 
             builder.Services.AddTransient<ICharacterService, CharacterService>();
             //builder.Services.AddTransient<IMovieService, MovieService>();
-            //builder.Services.AddTransient<IFranchiseService, FranchiseService>();
+            builder.Services.AddTransient<IFranchiseService, FranchiseService>();
+
             builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             var app = builder.Build();

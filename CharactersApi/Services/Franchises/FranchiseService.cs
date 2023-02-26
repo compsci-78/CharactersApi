@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CharactersApi.Services.Franchises
 {
-    public class FranchiseService
+    public class FranchiseService:IFranchiseService
     {
         private readonly CharactersDbContext _context;
         public FranchiseService(CharactersDbContext context)
