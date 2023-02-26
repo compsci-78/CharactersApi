@@ -9,11 +9,14 @@ using CharactersApi.Models;
 using CharactersApi.Services.Characters;
 using System.Text.RegularExpressions;
 using CharactersApi.Exceptions;
+using System.Net.Mime;
 
 namespace CharactersApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class CharactersController : ControllerBase
     {
         private readonly ICharacterService _service;
