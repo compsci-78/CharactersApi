@@ -19,8 +19,8 @@ namespace CharactersApi.Models
             modelBuilder.Entity<Character>().HasData(new Character {Id = 3,Name="Character_C",Alias="Any",Gender="Female",Picture="http://puctureUrl.com"});
 
             modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 1, Name = "Franchies_A", Description = "Any"});
-            modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 2, Name = "Franchies_A", Description = "Any"});
-            modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 3, Name = "Franchies_A", Description = "Any"});
+            modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 2, Name = "Franchies_B", Description = "Any"});
+            modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 3, Name = "Franchies_C", Description = "Any"});
 
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1,Title="Movie_A",Genre="Action",Year="1999",Director="Someone",Picture= "http://puctureUrl.com",Trailer= "http://videoProvider.com",FranchiseId = 1});
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 2,Title="Movie_B",Genre="Comedy",Year="1999",Director="Someone",Picture= "http://puctureUrl.com",Trailer= "http://videoProvider.com", FranchiseId = 1 });

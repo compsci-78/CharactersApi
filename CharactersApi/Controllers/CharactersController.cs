@@ -29,7 +29,6 @@ namespace CharactersApi.Controllers
         {
             return Ok(await _service.GetAllCharacters());            
         }
-
         // GET: api/Characters/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
@@ -46,7 +45,6 @@ namespace CharactersApi.Controllers
                 });
             }
         }
-
         //// PUT: api/Characters/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -74,16 +72,13 @@ namespace CharactersApi.Controllers
             return NoContent();
         }
 
-        //// POST: api/Characters
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Character>> PostCharacter(Character character)
-        //{
-        //    _service.Characters.Add(character);
-        //    await _service.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetCharacter", new { id = character.Id }, character);
-        //}
+        // POST: api/Characters
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Character>> PostCharacter(Character character)
+        {
+            return CreatedAtAction("GetCharacter", new { id = character.Id }, await _service.AddCharacter( character));
+        }
 
         //// DELETE: api/Characters/5
         //[HttpDelete("{id}")]

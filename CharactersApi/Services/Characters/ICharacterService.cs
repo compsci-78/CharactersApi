@@ -6,7 +6,7 @@ namespace CharactersApi.Services.Characters
     {
         Task<IEnumerable<Character>> GetAllCharacters();        
         Task<Character> GetCharacterById(int id);
-        Task<Character> AddCaracter(Character character);
+        Task<Character> AddCharacter(Character character);
         Task DeleteCharacter(int id);
         Task<Character> UpdateCharacter(Character character);
     }

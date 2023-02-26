@@ -11,9 +11,11 @@ namespace CharactersApi.Services.Characters
         {
             _context = context;
         }
-        public Task<Character> AddCaracter(Character character)
+        public async Task<Character> AddCharacter(Character character)
         {
-            throw new NotImplementedException();
+            _context.Characters.Add(character);
+            await _context.SaveChangesAsync();
+            return character;
         }
 
         public async Task DeleteCharacter(int id)
