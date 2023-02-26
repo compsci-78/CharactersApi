@@ -17,18 +17,25 @@ namespace CharactersApi.Controllers
     public class CharactersController : ControllerBase
     {
         private readonly ICharacterService _service;
-
         public CharactersController(ICharacterService service)
         {
             _service = service;
         }
-
+        /// <summary>
+        /// Gets all the Characters.
+        /// </summary>
+        /// <returns></returns>
         // GET: api/Characters
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
         {
             return Ok(await _service.GetAllCharacters());            
         }
+        /// <summary>
+        /// Gets a specific character by their id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/Characters/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
@@ -45,7 +52,13 @@ namespace CharactersApi.Controllers
                 });
             }
         }
-        //// PUT: api/Characters/5
+        /// <summary>
+        /// Adds a new character to the database. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="character"></param>
+        /// <returns></returns>
+        // PUT: api/Characters/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCharacter(int id, Character character)
@@ -71,7 +84,11 @@ namespace CharactersApi.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Updates an existing character.
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
         // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -79,26 +96,28 @@ namespace CharactersApi.Controllers
         {
             return CreatedAtAction("GetCharacter", new { id = character.Id }, await _service.AddCharacter( character));
         }
+        /// <summary>
+        /// Deletes an existing character by ther id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // DELETE: api/Characters/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCharacter(int id)
+        {
+            try
+            {
+                await _service.DeleteCharacter(id);
+            }
+            catch (CharacterNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
 
-        //// DELETE: api/Characters/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCharacter(int id)
-        //{
-        //    var character = await _service.Characters.FindAsync(id);
-        //    if (character == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _service.Characters.Remove(character);
-        //    await _service.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool CharacterExists(int id)
-        //{
-        //    return _service.Characters.Any(e => e.Id == id);
-        //}
+            return NoContent();
+        }
     }
 }

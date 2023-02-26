@@ -20,7 +20,14 @@ namespace CharactersApi.Services.Characters
 
         public async Task DeleteCharacter(int id)
         {
-            throw new NotImplementedException();
+            var character = await _context.Characters.FindAsync(id);
+            
+            if (character == null)
+            {
+                throw new CharacterNotFoundException(id);
+            }
+            _context.Characters.Remove(character);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Character>> GetAllCharacters()
