@@ -7,7 +7,7 @@ namespace CharactersApi.Services.Characters
         Task<IEnumerable<Character>> GetAllCharacters();        
         Task<Character> GetCharacterById(int id);
         Task<Character> AddCaracter(Character character);
-        Task DeleteGuitar(int id);
+        Task DeleteCharacter(int id);
         Task<Character> UpdateCharacter(Character character);
     }
 }

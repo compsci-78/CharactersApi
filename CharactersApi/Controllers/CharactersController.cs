@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CharactersApi.Models;
 using CharactersApi.Services.Characters;
 using System.Text.RegularExpressions;
+using CharactersApi.Exceptions;
 
 namespace CharactersApi.Controllers
 {
@@ -29,19 +30,22 @@ namespace CharactersApi.Controllers
             return Ok(await _service.GetAllCharacters());            
         }
 
-        //// GET: api/Characters/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Character>> GetCharacter(int id)
-        //{
-        //    var character = await _service.Characters.FindAsync(id);
-
-        //    if (character == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return character;
-        //}
+        // GET: api/Characters/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Character>> GetCharacter(int id)
+        {
+            try
+            {
+                return await _service.GetCharacterById(id);
+            }
+            catch (CharacterNotFoundException ex)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Detail = ex.Message
+                });
+            }
+        }
 
         //// PUT: api/Characters/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

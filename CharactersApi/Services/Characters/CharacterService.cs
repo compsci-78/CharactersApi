@@ -1,4 +1,5 @@
-﻿using CharactersApi.Models;
+﻿using CharactersApi.Exceptions;
+using CharactersApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CharactersApi.Services.Characters
@@ -15,7 +16,7 @@ namespace CharactersApi.Services.Characters
             throw new NotImplementedException();
         }
 
-        public Task DeleteGuitar(int id)
+        public Task DeleteCharacter(int id)
         {
             throw new NotImplementedException();
         }
@@ -25,9 +26,16 @@ namespace CharactersApi.Services.Characters
             return await _context.Characters.ToListAsync();
         }
 
-        public Task<Character> GetCharacterById(int id)
+        public async Task<Character> GetCharacterById(int id)
         {
-            throw new NotImplementedException();
+            var character = await _context.Characters.FindAsync(id);
+
+            if (character == null)
+            {
+                throw new CharacterNotFoundException(id);
+            }
+
+            return character;
         }
 
         public Task<Character> UpdateCharacter(Character character)
