@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Movies\" />
-    <Folder Include="Services\Franchises\" />
   </ItemGroup>
 
 </Project>
