@@ -20,13 +20,13 @@ namespace CharactersApi.Services.Franchises
 
         public async Task DeleteFranchise(int id)
         {
-            var Franchise = await _context.Franchises.FindAsync(id);
+            var franchise = await _context.Franchises.FindAsync(id);
 
-            if (Franchise == null)
+            if (franchise == null)
             {
                 throw new FranchiseNotFoundException(id);
             }
-            _context.Franchises.Remove(Franchise);
+            _context.Franchises.Remove(franchise);
             await _context.SaveChangesAsync();
         }
 
@@ -37,14 +37,14 @@ namespace CharactersApi.Services.Franchises
 
         public async Task<Franchise> GetFranchiseById(int id)
         {
-            var Franchise = await _context.Franchises.FindAsync(id);
+            var franchise = await _context.Franchises.FindAsync(id);
 
-            if (Franchise == null)
+            if (franchise == null)
             {
                 throw new FranchiseNotFoundException(id);
             }
 
-            return Franchise;
+            return franchise;
         }
 
         public async Task<Franchise> UpdateFranchise(Franchise franchise)
