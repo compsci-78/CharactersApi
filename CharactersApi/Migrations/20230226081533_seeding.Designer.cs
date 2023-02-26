@@ -4,6 +4,7 @@ using CharactersApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CharactersApi.Migrations
 {
     [DbContext(typeof(CharactersDbContext))]
-    partial class CharactersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230226081533_seeding")]
+    partial class seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,7 +221,6 @@ namespace CharactersApi.Migrations
                         {
                             Id = 1,
                             Director = "Someone",
-                            FranchiseId = 1,
                             Genre = "Action",
                             Picture = "http://puctureUrl.com",
                             Title = "Movie_A",
@@ -229,7 +231,6 @@ namespace CharactersApi.Migrations
                         {
                             Id = 2,
                             Director = "Someone",
-                            FranchiseId = 1,
                             Genre = "Comedy",
                             Picture = "http://puctureUrl.com",
                             Title = "Movie_B",
@@ -240,7 +241,6 @@ namespace CharactersApi.Migrations
                         {
                             Id = 3,
                             Director = "Someone",
-                            FranchiseId = 2,
                             Genre = "Romantic",
                             Picture = "http://puctureUrl.com",
                             Title = "Movie_C",
