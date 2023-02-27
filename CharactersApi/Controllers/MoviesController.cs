@@ -10,6 +10,9 @@ using System.Net.Mime;
 using CharactersApi.Services.Characters;
 using CharactersApi.Services.Movies;
 using CharactersApi.Exceptions;
+using AutoMapper;
+using CharactersApi.Models.Dtos;
+using System.Drawing.Drawing2D;
 
 namespace CharactersApi.Controllers
 {
@@ -21,10 +24,12 @@ namespace CharactersApi.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _service;
+        private readonly IMapper _mapper;
 
-        public MoviesController(IMovieService service)
+        public MoviesController(IMovieService service,IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
         /// <summary>
         /// Gets all the Movies.
@@ -34,7 +39,7 @@ namespace CharactersApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
-            return Ok(await _service.GetAllMovies());
+            return Ok(_mapper.Map<IEnumerable<ReadMovieDto>>(await _service.GetAllMovies()));
         }
         /// <summary>
         /// Gets a specific movie by their id.
@@ -47,7 +52,7 @@ namespace CharactersApi.Controllers
         {
             try
             {
-                return await _service.GetMovieById(id);
+                return Ok(_mapper.Map<ReadMovieDto>(await _service.GetMovieById(id)));
             }
             catch (MovieNotFoundException ex)
             {
@@ -99,9 +104,11 @@ namespace CharactersApi.Controllers
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+        public async Task<ActionResult<Movie>> PostMovie(CreateMovieDto createMovieDto)
         {
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, await _service.AddMovie(movie));
+            var movie = _mapper.Map<Movie>(createMovieDto);
+            await _service.AddMovie(movie);
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
         }
         /// <summary>
         /// Deletes an existing movie by ther id.

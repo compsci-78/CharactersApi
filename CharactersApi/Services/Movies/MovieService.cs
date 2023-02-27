@@ -32,12 +32,12 @@ namespace CharactersApi.Services.Movies
 
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Movies.Include(x=>x.Characters).ToListAsync();
         }
 
         public async Task<Movie> GetMovieById(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Movies.Include(x=>x.Characters).FirstOrDefaultAsync(x=>x.Id==id);
 
             if (movie == null)
             {
@@ -52,7 +52,7 @@ namespace CharactersApi.Services.Movies
             var foundMovie= await _context.Movies.AnyAsync(x => x.Id == movie.Id);
             if (!foundMovie)
             {
-                throw new FranchiseNotFoundException(movie.Id);
+                throw new MovieNotFoundException(movie.Id);
             }
             _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
