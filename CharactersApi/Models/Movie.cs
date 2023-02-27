@@ -11,15 +11,15 @@ namespace CharactersApi.Models
         [MaxLength(50)]
         public string Title { get; set; }
         [MaxLength(30)]
-        public string Genre{ get; set; }
+        public string? Genre{ get; set; }
         [MaxLength(4)]
-        public string Year { get; set; }
+        public string? Year { get; set; }
         [MaxLength(50)]
-        public string Director { get; set; }
+        public string? Director { get; set; }
         [MaxLength(255)]
-        public string Picture { get; set; }        
+        public string? Picture { get; set; }        
         [MaxLength(255)]
-        public string Trailer { get; set; }
+        public string? Trailer { get; set; }
 
         /// <summary>
         /// Foreign key property refering to the Franchies
@@ -28,12 +28,12 @@ namespace CharactersApi.Models
         /// <summary>
         /// Navigation property refering to the Franchies
         /// </summary>
-        public Franchise Franchise { get; set; }
+        public Franchise? Franchise { get; set; }
         /// <summary>
         /// Collection navigation property refering to Character.
         /// This will result in a linking table between Movies 
         /// and and Characters as they have many relation.
         /// </summary>
-        public ICollection<Character> Characters { get; set; }
+        public ICollection<Character>? Characters { get; set; }
     }
 }

@@ -10,11 +10,11 @@ namespace CharactersApi.Models
         [MaxLength(50)]
         public string Name { get; set; }        
         [MaxLength(255)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// Collection navigation property to Movie since 
         /// many movies can belong to a Franchise
         /// </summary>
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<Movie>? Movies { get; set; }
     }
 }
