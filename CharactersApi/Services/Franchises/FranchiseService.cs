@@ -30,6 +30,20 @@ namespace CharactersApi.Services.Franchises
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Movie>> GetAllFranchiseMovies(int franchiseId)
+        {
+            var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
+
+            if (!foundFranchise)
+            {
+                throw new FranchiseNotFoundException(franchiseId);
+            }
+
+            var franchise = await _context.Franchises.Include(f=>f.Movies).SingleOrDefaultAsync(f=>f.Id == franchiseId);
+
+            return franchise.Movies;
+        }
+
         public async Task<IEnumerable<Franchise>> GetAllFranchises()
         {
             return await _context.Franchises.ToListAsync();
@@ -50,6 +64,7 @@ namespace CharactersApi.Services.Franchises
         public async Task<Franchise> UpdateFranchise(Franchise franchise)
         {
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchise.Id);
+
             if (!foundFranchise)
             {
                 throw new FranchiseNotFoundException(franchise.Id);

@@ -10,6 +10,7 @@ namespace CharactersApi.Services.Franchises
         Task DeleteFranchise(int id);
         Task<Franchise> UpdateFranchise(Franchise franchise);
         Task UpdateFranchiseMovies(int id, List<int>moviesId);
-        
+        Task<IEnumerable<Movie>> GetAllFranchiseMovies(int franchiseId);
+
     }
 }

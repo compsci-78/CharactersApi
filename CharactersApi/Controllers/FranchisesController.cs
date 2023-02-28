@@ -10,6 +10,8 @@ using System.Net.Mime;
 using CharactersApi.Services.Characters;
 using CharactersApi.Services.Franchises;
 using CharactersApi.Exceptions;
+using AutoMapper;
+using CharactersApi.Models.Dtos;
 
 namespace CharactersApi.Controllers
 {
@@ -21,10 +23,12 @@ namespace CharactersApi.Controllers
     public class FranchisesController : ControllerBase
     {
         private readonly IFranchiseService _service;
+        private readonly IMapper _mapper;
 
-        public FranchisesController(IFranchiseService service)
+        public FranchisesController(IFranchiseService service, IMapper mapper)
         {
-            _service= service;
+            _service = service;
+            _mapper = mapper;
         }
         /// <summary>
         /// Gets all the franchises.
@@ -144,6 +148,17 @@ namespace CharactersApi.Controllers
             }
 
             return NoContent();
+        }
+        /// <summary>
+        /// Gets franchise movies by franchise id.
+        /// </summary>
+        /// <param name="id">Franchise id</param>
+        /// <returns></returns>
+        // GET: api/Franchises/movies
+        [HttpGet("{id}/movies")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetFranchiseMovies(int id)
+        {
+            return Ok( _mapper.Map<IEnumerable<ReadMovieDto>>(await _service.GetAllFranchiseMovies(id)));       
         }
     }
 }
