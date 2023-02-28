@@ -68,12 +68,12 @@ namespace CharactersApi.Services.Franchises
 
         public async Task<IEnumerable<Franchise>> GetAllFranchises()
         {
-            return await _context.Franchises.ToListAsync();
+            return await _context.Franchises.Include(f=>f.Movies).ToListAsync();
         }
 
         public async Task<Franchise> GetFranchiseById(int id)
         {
-            var franchise = await _context.Franchises.FindAsync(id);
+            var franchise = await _context.Franchises.Include(f=>f.Movies).FirstOrDefaultAsync(f=>f.Id==id);
 
             if (franchise == null)
             {
