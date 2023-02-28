@@ -1,5 +1,6 @@
 ﻿using CharactersApi.Exceptions;
 using CharactersApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CharactersApi.Services.Movies
@@ -17,7 +18,6 @@ namespace CharactersApi.Services.Movies
             await _context.SaveChangesAsync();
             return movie;
         }
-
         public async Task DeleteMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -29,12 +29,22 @@ namespace CharactersApi.Services.Movies
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
         }
+        public async Task<IEnumerable<Character>> GetAllMovieCharacters(int movieId)
+        {
+            var foundMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
+            if (!foundMovie)
+            {
+                throw new MovieNotFoundException(movieId);
+            }
 
+            var movie = await _context.Movies.Include(m=>m.Characters).Where(m=>m.Id == movieId).FirstOrDefaultAsync();
+
+            return movie.Characters;
+        }
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
             return await _context.Movies.Include(x=>x.Characters).ToListAsync();
         }
-
         public async Task<Movie> GetMovieById(int id)
         {
             var movie = await _context.Movies.Include(x=>x.Characters).FirstOrDefaultAsync(x=>x.Id==id);
