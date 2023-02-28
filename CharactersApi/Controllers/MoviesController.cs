@@ -133,6 +133,25 @@ namespace CharactersApi.Controllers
 
             return NoContent();
         }
+        /// <summary>
+        /// Updates movies characters
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <param name="charactersId">List of characters id</param>
+        /// <returns></returns>
+        [HttpPut("{id}/characters")]
+        public async Task<IActionResult> UpdateMovieCharacters(int movieId, List<int> charactersId)
+        {
+            try
+            {
+                await _service.UpdateMovieCharacters(movieId, charactersId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest("Invalid character.");
+            }
 
+            return NoContent();
+        }
     }
 }

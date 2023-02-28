@@ -9,5 +9,6 @@ namespace CharactersApi.Services.Movies
         Task<Movie> AddMovie(Movie movie);
         Task DeleteMovie(int id);
         Task<Movie> UpdateMovie(Movie movie);
+        Task UpdateMovieCharacters(int id, List<int> characters);
     }
 }

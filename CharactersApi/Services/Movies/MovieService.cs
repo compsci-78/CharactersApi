@@ -46,7 +46,6 @@ namespace CharactersApi.Services.Movies
 
             return movie;
         }
-
         public async Task<Movie> UpdateMovie(Movie movie)
         {
             var foundMovie= await _context.Movies.AnyAsync(x => x.Id == movie.Id);
@@ -57,6 +56,36 @@ namespace CharactersApi.Services.Movies
             _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return movie;
+        }
+        public async Task UpdateMovieCharacters(int movieId, List<int> charactersId)
+        {
+            var foundMovie = await _context.Movies.AnyAsync(x => x.Id == movieId);
+            if (!foundMovie)
+            {
+                throw new MovieNotFoundException(movieId);
+            }
+
+            // Finding the movie with its characters
+            var movieToUpdateCharacters = await _context.Movies
+                .Include(m => m.Characters)
+                .Where(m => m.Id == movieId)
+                .FirstAsync();
+
+            // Loop through certificates, try and assign to coach            
+             var characters = new List<Character>();
+
+            foreach (var id in charactersId)
+            {
+                var character = await _context.Characters.FindAsync(id);
+                if (character == null)
+                    // Record doesnt exist: https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/ms229021(v=vs.100)?redirectedfrom=MSDN
+                    throw new KeyNotFoundException($"character with {id}");
+                characters.Add(character);
+            }
+
+            _context.Entry(foundMovie).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            
         }
     }
 }
