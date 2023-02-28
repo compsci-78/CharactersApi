@@ -58,5 +58,36 @@ namespace CharactersApi.Services.Franchises
             await _context.SaveChangesAsync();
             return franchise;
         }
+
+        public async Task UpdateFranchiseMovies(int franchiseId, List<int> moviesId)
+        {
+            var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
+            if (!foundFranchise)
+            {
+                throw new FranchiseNotFoundException(franchiseId);
+            }
+
+            // Finding the franchise with its movies
+            var franchiseToUpdateMovies = await _context.Franchises
+                .Include(f => f.Movies)
+                .Where(f => f.Id == franchiseId)
+                .FirstAsync();
+
+            // Loop through movies, try and assign to franchise            
+            var movies = new List<Movie>();
+
+            foreach (var id in moviesId)
+            {
+                var movie = await _context.Movies.FindAsync(id);
+                if (movie == null)
+                    // Record doesnt exist: https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/ms229021(v=vs.100)?redirectedfrom=MSDN
+                    throw new KeyNotFoundException($"movie with {id} not found");
+                movies.Add(movie);
+            }
+
+            _context.Entry(franchiseToUpdateMovies).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

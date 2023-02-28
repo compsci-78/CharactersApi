@@ -124,5 +124,26 @@ namespace CharactersApi.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Updates franchise movies
+        /// </summary>
+        /// <param name="franchiseId"></param>
+        /// <param name="moviesId">List of movies id</param>
+        /// <returns></returns>
+        [HttpPut("{id}/movies")]
+        public async Task<IActionResult> UpdateFranchiseMovies(int franchiseId, List<int> moviesId)
+        {
+            try
+            {
+                await _service.UpdateFranchiseMovies(franchiseId, moviesId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest("Invalid franchise.");
+            }
+
+            return NoContent();
+        }
     }
 }

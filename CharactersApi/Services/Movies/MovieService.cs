@@ -71,7 +71,7 @@ namespace CharactersApi.Services.Movies
                 .Where(m => m.Id == movieId)
                 .FirstAsync();
 
-            // Loop through certificates, try and assign to coach            
+            // Loop through characters, try and assign to movie            
              var characters = new List<Character>();
 
             foreach (var id in charactersId)
@@ -79,11 +79,11 @@ namespace CharactersApi.Services.Movies
                 var character = await _context.Characters.FindAsync(id);
                 if (character == null)
                     // Record doesnt exist: https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/ms229021(v=vs.100)?redirectedfrom=MSDN
-                    throw new KeyNotFoundException($"character with {id}");
+                    throw new KeyNotFoundException($"character with {id} not found");
                 characters.Add(character);
             }
 
-            _context.Entry(foundMovie).State = EntityState.Modified;
+            _context.Entry(movieToUpdateCharacters).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             
         }
