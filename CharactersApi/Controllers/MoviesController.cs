@@ -134,17 +134,17 @@ namespace CharactersApi.Controllers
             return NoContent();
         }
         /// <summary>
-        /// Updates movies characters
+        /// Updates movie characters
         /// </summary>
-        /// <param name="movieId"></param>
-        /// <param name="charactersId">List of characters id</param>
+        /// <param name="id"></param>
+        /// <param name="characters">List of characters id</param>
         /// <returns></returns>
         [HttpPut("{id}/characters")]
-        public async Task<IActionResult> UpdateMovieCharacters(int movieId, List<int> charactersId)
+        public async Task<IActionResult> UpdateMovieCharacters(int id, List<int> characters)
         {
             try
             {
-                await _service.UpdateMovieCharacters(movieId, charactersId);
+                await _service.UpdateMovieCharacters(id, characters);
             }
             catch (KeyNotFoundException)
             {

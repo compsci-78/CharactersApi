@@ -82,7 +82,7 @@ namespace CharactersApi.Services.Movies
                     throw new KeyNotFoundException($"character with {id} not found");
                 characters.Add(character);
             }
-
+            movieToUpdateCharacters.Characters = characters;
             _context.Entry(movieToUpdateCharacters).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             
