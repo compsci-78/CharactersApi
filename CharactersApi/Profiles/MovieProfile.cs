@@ -13,6 +13,7 @@ namespace CharactersApi.Profiles
             CreateMap<Movie, ReadMovieDto>()
                 .ForMember(dto => dto.Characters, options =>
                 options.MapFrom(movieDomain => movieDomain.Characters.Select(character => $"api/v1/charachters/{character.Id}").ToList()));
+            CreateMap<UpdateMovieDto, Movie>();
         }
     }
 }

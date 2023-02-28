@@ -63,7 +63,7 @@ namespace CharactersApi.Controllers
             }
         }
         /// <summary>
-        /// Adds a new movie to the database. 
+        /// Updates an existing movie. 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="movie"></param>
@@ -72,9 +72,9 @@ namespace CharactersApi.Controllers
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, Movie movie)
+        public async Task<IActionResult> PutMovie(int id, UpdateMovieDto movieDto)
         {
-            if (id != movie.Id)
+            if (id != movieDto.Id)
             {
                 return BadRequest();
             }
@@ -83,6 +83,7 @@ namespace CharactersApi.Controllers
 
             try
             {
+                var movie = _mapper.Map<Movie>(movieDto);
                 await _service.UpdateMovie(movie);
             }
             catch (MovieNotFoundException ex)
@@ -96,7 +97,7 @@ namespace CharactersApi.Controllers
             return NoContent();
         }
         /// <summary>
-        /// Updates an existing movie.
+        /// Adds a new movie to the databse.
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
