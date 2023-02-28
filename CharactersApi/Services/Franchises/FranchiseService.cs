@@ -30,6 +30,28 @@ namespace CharactersApi.Services.Franchises
             await _context.SaveChangesAsync();
         }
 
+        public async  Task<IEnumerable<Character>> GetAllFranchiseCharacters(int franchiseId)
+        {
+            var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
+
+            if (!foundFranchise)
+            {
+                throw new FranchiseNotFoundException(franchiseId);
+            }
+
+            var franchise = await _context.Franchises.Include(f => f.Movies).ThenInclude(m=>m.Characters).FirstOrDefaultAsync(f => f.Id == franchiseId);
+            var characters= new List <Character>();
+
+            foreach (var movie in franchise.Movies)
+            {
+                foreach (var character in movie.Characters)
+                {
+                    characters.Add(character);
+                }
+            }
+            return characters;
+        }
+
         public async Task<IEnumerable<Movie>> GetAllFranchiseMovies(int franchiseId)
         {
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);

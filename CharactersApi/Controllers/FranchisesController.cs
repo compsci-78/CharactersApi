@@ -160,5 +160,15 @@ namespace CharactersApi.Controllers
         {
             return Ok( _mapper.Map<IEnumerable<ReadMovieDto>>(await _service.GetAllFranchiseMovies(id)));       
         }
+        /// <summary>
+        /// Gets franchise characters by franchise id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/characters")]
+        public async Task<ActionResult<IEnumerable<Character>>> GetFranchiseCharacters(int id)
+        {
+            return Ok(_mapper.Map<IEnumerable<ReadCharacterDto>>(await _service.GetAllFranchiseCharacters(id)));
+        }
     }
 }
