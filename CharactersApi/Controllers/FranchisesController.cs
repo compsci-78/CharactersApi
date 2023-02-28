@@ -128,15 +128,15 @@ namespace CharactersApi.Controllers
         /// <summary>
         /// Updates franchise movies
         /// </summary>
-        /// <param name="franchiseId"></param>
-        /// <param name="moviesId">List of movies id</param>
+        /// <param name="id">Franchise id</param>
+        /// <param name="movies">List of movies id</param>
         /// <returns></returns>
         [HttpPut("{id}/movies")]
-        public async Task<IActionResult> UpdateFranchiseMovies(int franchiseId, List<int> moviesId)
+        public async Task<IActionResult> UpdateFranchiseMovies(int id, List<int> movies)
         {
             try
             {
-                await _service.UpdateFranchiseMovies(franchiseId, moviesId);
+                await _service.UpdateFranchiseMovies(id, movies);
             }
             catch (KeyNotFoundException)
             {

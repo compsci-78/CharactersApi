@@ -84,7 +84,7 @@ namespace CharactersApi.Services.Franchises
                     throw new KeyNotFoundException($"movie with {id} not found");
                 movies.Add(movie);
             }
-
+            franchiseToUpdateMovies.Movies = movies;
             _context.Entry(franchiseToUpdateMovies).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
