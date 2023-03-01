@@ -20,7 +20,10 @@ namespace CharactersApi.Services.Franchises
 
         public async Task DeleteFranchise(int id)
         {
-            var franchise = await _context.Franchises.FindAsync(id);
+            // In order to delete the frinchise we need to include movies with firnchise foreing key
+            // This will set the foreing key to null for movies then deletes the franchise. Otherwhise 
+            // the deletion won´t be possible because of relational integrity. 
+            var franchise = await _context.Franchises.Include(f=>f.Movies).FirstOrDefaultAsync(f=>f.Id==id);
 
             if (franchise == null)
             {
@@ -53,7 +56,7 @@ namespace CharactersApi.Services.Franchises
         }
 
         public async Task<IEnumerable<Movie>> GetAllFranchiseMovies(int franchiseId)
-        {
+        {            
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
 
             if (!foundFranchise)
