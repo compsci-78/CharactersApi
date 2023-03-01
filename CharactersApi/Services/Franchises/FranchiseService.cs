@@ -17,7 +17,6 @@ namespace CharactersApi.Services.Franchises
             await _context.SaveChangesAsync();
             return franchise;
         }
-
         public async Task DeleteFranchise(int id)
         {
             // In order to delete the frinchise we need to include movies with firnchise foreing key
@@ -32,7 +31,6 @@ namespace CharactersApi.Services.Franchises
             _context.Franchises.Remove(franchise);
             await _context.SaveChangesAsync();
         }
-
         public async  Task<IEnumerable<Character>> GetAllFranchiseCharacters(int franchiseId)
         {
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
@@ -54,7 +52,6 @@ namespace CharactersApi.Services.Franchises
             }
             return characters;
         }
-
         public async Task<IEnumerable<Movie>> GetAllFranchiseMovies(int franchiseId)
         {            
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
@@ -68,12 +65,10 @@ namespace CharactersApi.Services.Franchises
 
             return franchise.Movies;
         }
-
         public async Task<IEnumerable<Franchise>> GetAllFranchises()
         {
             return await _context.Franchises.Include(f=>f.Movies).ToListAsync();
         }
-
         public async Task<Franchise> GetFranchiseById(int id)
         {
             var franchise = await _context.Franchises.Include(f=>f.Movies).FirstOrDefaultAsync(f=>f.Id==id);
@@ -85,7 +80,6 @@ namespace CharactersApi.Services.Franchises
 
             return franchise;
         }
-
         public async Task<Franchise> UpdateFranchise(Franchise franchise)
         {
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchise.Id);
@@ -98,7 +92,6 @@ namespace CharactersApi.Services.Franchises
             await _context.SaveChangesAsync();
             return franchise;
         }
-
         public async Task UpdateFranchiseMovies(int franchiseId, List<int> moviesId)
         {
             var foundFranchise = await _context.Franchises.AnyAsync(x => x.Id == franchiseId);
